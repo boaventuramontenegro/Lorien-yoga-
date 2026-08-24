@@ -1,5 +1,5 @@
 import React from 'react';
-import { motion } from 'motion/react';
+import { ScrollReveal, RevealHeading, RevealText, RevealButton, RevealIcon } from './ScrollReveal';
 
 export const Hero: React.FC = () => {
   return (
@@ -29,90 +29,70 @@ export const Hero: React.FC = () => {
 
       {/* Main Content Area */}
       <div className="relative z-10 max-w-7xl mx-auto px-5 sm:px-8 lg:px-12 w-full py-12 lg:py-20">
-        <motion.div
-          initial={{ opacity: 0, y: 22 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.85, ease: [0.22, 1, 0.36, 1] }}
-          className="max-w-xl lg:max-w-2xl text-left space-y-6 sm:space-y-7"
-        >
+        <div className="max-w-xl lg:max-w-2xl text-left space-y-6 sm:space-y-7">
           
           {/* 1. Category / Eyebrow (Letter-spacing expanded for luxury feel) */}
-          <motion.div
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.15 }}
-            className="space-y-1"
-          >
-            <span className="uppercase tracking-[0.35em] text-[11px] sm:text-xs text-[#A3BFA0] font-semibold block leading-relaxed drop-shadow-xs">
-              Terapeuta Corporal
-            </span>
-            <span className="uppercase tracking-[0.35em] text-[11px] sm:text-xs text-[#A3BFA0] font-semibold block leading-relaxed drop-shadow-xs">
-              & Instrutora
-            </span>
-          </motion.div>
+          <ScrollReveal direction="up" distance={50} duration={1100} delay={150} easing="smooth">
+            <div className="space-y-1">
+              <span className="uppercase tracking-[0.35em] text-[11px] sm:text-xs text-[#A3BFA0] font-semibold block leading-relaxed drop-shadow-xs">
+                Terapeuta Corporal
+              </span>
+              <span className="uppercase tracking-[0.35em] text-[11px] sm:text-xs text-[#A3BFA0] font-semibold block leading-relaxed drop-shadow-xs">
+                & Instrutora
+              </span>
+            </div>
+          </ScrollReveal>
 
-          {/* Small Decorative Motif / Flower Symbol */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            className="flex items-center gap-2 text-[#A3BFA0] opacity-90 py-0.5"
-          >
-            <svg
-              className="w-4 h-4 text-[#A3BFA0]"
-              viewBox="0 0 24 24"
-              fill="currentColor"
-              aria-hidden="true"
-            >
-              <path d="M12 2C11.5 5.5 8 9 4.5 9.5C8 10 11.5 13.5 12 17C12.5 13.5 16 10 19.5 9.5C16 9 12.5 5.5 12 2Z" />
-              <circle cx="12" cy="12" r="1.5" fill="#E4A8A3" />
-            </svg>
-            <span className="h-[1px] w-8 bg-white/25" />
-          </motion.div>
+          {/* Small Decorative Motif / Flower Symbol with rotation pop */}
+          <RevealIcon delay={320} duration={850} rotate={-18} scale={0.8}>
+            <div className="flex items-center gap-2 text-[#A3BFA0] opacity-90 py-0.5">
+              <svg
+                className="w-4 h-4 text-[#A3BFA0]"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                aria-hidden="true"
+              >
+                <path d="M12 2C11.5 5.5 8 9 4.5 9.5C8 10 11.5 13.5 12 17C12.5 13.5 16 10 19.5 9.5C16 9 12.5 5.5 12 2Z" />
+                <circle cx="12" cy="12" r="1.5" fill="#E4A8A3" />
+              </svg>
+              <span className="h-[1px] w-8 bg-white/25" />
+            </div>
+          </RevealIcon>
 
           {/* 2. Description Paragraph */}
-          <motion.p
-            initial={{ opacity: 0, y: 14 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.75, delay: 0.4 }}
-            className="text-[#EAE7E1] text-base sm:text-lg lg:text-xl leading-relaxed font-light max-w-lg drop-shadow-xs text-balance"
-          >
-            Integrando o movimento do solo e a leveza do aéreo em práticas conscientes. 
-            Um convite para reconectar corpo, mente e energia em um ambiente acolhedor.
-          </motion.p>
+          <RevealText delay={460} duration={1150} distance={50}>
+            <p className="text-[#EAE7E1] text-base sm:text-lg lg:text-xl leading-relaxed font-light max-w-lg drop-shadow-xs text-balance">
+              Integrando o movimento do solo e a leveza do aéreo em práticas conscientes. 
+              Um convite para reconectar corpo, mente e energia em um ambiente acolhedor.
+            </p>
+          </RevealText>
 
-          {/* 3. Action Buttons */}
-          <motion.div
-            initial={{ opacity: 0, y: 14 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.75, delay: 0.55 }}
-            className="pt-2 sm:pt-4 flex flex-col sm:flex-row items-stretch sm:items-center gap-3.5 max-w-md sm:max-w-none"
-          >
-            {/* Primary Scheduling CTA */}
-            <a
-              id="hero-cta-agendamento"
-              href="#agendamento"
-              className="inline-flex items-center justify-center px-7 py-3.5 sm:py-4 rounded-full text-[11px] sm:text-xs uppercase tracking-widest font-bold bg-[#5D7C56] hover:bg-[#4E6B47] text-white shadow-[0_4px_20px_rgba(50,75,45,0.35)] hover:shadow-xl transition-all duration-300 transform active:scale-98"
-            >
-              <span>Solicitar Agendamento</span>
-            </a>
+          {/* 3. Action Buttons with Pop & Scale */}
+          <div className="pt-2 sm:pt-4 flex flex-col sm:flex-row items-stretch sm:items-center gap-3.5 max-w-md sm:max-w-none">
+            <RevealButton delay={680} duration={850}>
+              <a
+                id="hero-cta-agendamento"
+                href="#agendamento"
+                className="inline-flex items-center justify-center px-7 py-3.5 sm:py-4 rounded-full text-[11px] sm:text-xs uppercase tracking-widest font-bold bg-[#5D7C56] hover:bg-[#4E6B47] text-white shadow-[0_4px_20px_rgba(50,75,45,0.35)] hover:shadow-xl transition-all duration-300 transform active:scale-98 cursor-pointer"
+              >
+                <span>Solicitar Agendamento</span>
+              </a>
+            </RevealButton>
 
-            {/* Secondary Services CTA */}
-            <a
-              id="hero-secondary-btn"
-              href="#servicos"
-              className="inline-flex items-center justify-center px-7 py-3.5 sm:py-4 rounded-full text-[11px] sm:text-xs uppercase tracking-widest font-bold text-white bg-black/35 hover:bg-black/50 backdrop-blur-xs border border-white/30 hover:border-white/60 transition-all duration-300 shadow-md"
-            >
-              <span>Conhecer Serviços</span>
-            </a>
-          </motion.div>
+            <RevealButton delay={840} duration={850}>
+              <a
+                id="hero-secondary-btn"
+                href="#servicos"
+                className="inline-flex items-center justify-center px-7 py-3.5 sm:py-4 rounded-full text-[11px] sm:text-xs uppercase tracking-widest font-bold text-white bg-black/35 hover:bg-black/50 backdrop-blur-xs border border-white/30 hover:border-white/60 transition-all duration-300 shadow-md cursor-pointer"
+              >
+                <span>Conhecer Serviços</span>
+              </a>
+            </RevealButton>
+          </div>
 
-        </motion.div>
+        </div>
       </div>
 
     </section>
   );
 };
-
-
-

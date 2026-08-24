@@ -3,6 +3,7 @@ import React, { useState, useRef, useEffect } from 'react';
 export interface DeckCardItem {
   id: string;
   image: string;
+  fallbackImage?: string;
   caption?: string;
   subcaption?: string;
   alt?: string;
@@ -22,6 +23,7 @@ export const StackedDeck: React.FC<StackedDeckProps> = ({
   const [currentIndex, setCurrentIndex] = useState(0);
   const [dragOffset, setDragOffset] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
   const [isDragging, setIsDragging] = useState(false);
+  const [failedImages, setFailedImages] = useState<Record<string, boolean>>({});
 
   const containerRef = useRef<HTMLDivElement>(null);
   const startPosRef = useRef<{ x: number; y: number; time: number }>({ x: 0, y: 0, time: 0 });
@@ -34,7 +36,6 @@ export const StackedDeck: React.FC<StackedDeckProps> = ({
     if (!isOpen) return;
 
     const handleOutsideClick = (e: MouseEvent | TouchEvent) => {
-      // Se o clique foi dentro do próprio deck, não faz nada
       if (containerRef.current && containerRef.current.contains(e.target as Node)) {
         return;
       }
@@ -94,13 +95,11 @@ export const StackedDeck: React.FC<StackedDeckProps> = ({
     const dx = touch.clientX - startPosRef.current.x;
     const dy = touch.clientY - startPosRef.current.y;
 
-    // Se ainda não determinamos se o gesto é primariamente horizontal ou vertical:
     if (isHorizontalGestureRef.current === null) {
       if (Math.abs(dx) > 7 || Math.abs(dy) > 7) {
         if (Math.abs(dy) > Math.abs(dx)) {
           // Gesto vertical detectado: NÃO interfere no scroll nativo da página
           isHorizontalGestureRef.current = false;
-          // Se estiver aberto e o movimento vertical for nítido (> 24px), fecha o deck suavemente
           if (isOpen && Math.abs(dy) > 24) {
             setIsOpen(false);
             setIsDragging(false);
@@ -115,8 +114,6 @@ export const StackedDeck: React.FC<StackedDeckProps> = ({
     }
 
     if (isHorizontalGestureRef.current === true) {
-      // Movimento horizontal fluido
-      // Aplicar resistência nas extremidades (limites sem loop infinito)
       let appliedDx = dx;
       if (isOpen) {
         if (currentIndex === 0 && dx > 0) {
@@ -215,6 +212,10 @@ export const StackedDeck: React.FC<StackedDeckProps> = ({
     }
   };
 
+  const handleImageError = (cardId: string) => {
+    setFailedImages((prev) => ({ ...prev, [cardId]: true }));
+  };
+
   return (
     <div
       ref={containerRef}
@@ -239,14 +240,9 @@ export const StackedDeck: React.FC<StackedDeckProps> = ({
           let filter = 'none';
 
           if (!isOpen) {
-            // ==========================================
-            // ESTADO INICIAL (FECHADO / FAN DECK NA MEDIDA EXATA DA REFERÊNCIA)
-            // ==========================================
-            // O card da frente inclinado para a esquerda (-4°), revelando discretamente
-            // apenas as bordas superiores e laterais dos cards seguintes em leque equilibrado.
+            // ESTADO INICIAL (FECHADO / FAN DECK NA MEDIDA EXATA)
             const offsetFromTop = i;
 
-            // Rotações e deslocamentos calibrados na medida exata
             const fanRotations = [-4, -0.5, 3.2, 7, 10.8];
             const fanTranslateX = [-14, -2, 10, 22, 34];
             const fanTranslateY = [0, -5, -7, -5, -1];
@@ -256,23 +252,18 @@ export const StackedDeck: React.FC<StackedDeckProps> = ({
             const baseTy = offsetFromTop < fanTranslateY.length ? fanTranslateY[offsetFromTop] : -5;
             const baseScale = Math.max(1 - offsetFromTop * 0.015, 0.94);
 
-            // Drag durante o estado de leque
             const dragX = isDragging ? dragOffset.x * 0.4 : 0;
             const dragRot = isDragging ? dragOffset.x * 0.04 : 0;
 
             transform = `translate3d(${baseTx + dragX}px, ${baseTy}px, 0) rotate(${baseRot + dragRot}deg) scale(${baseScale})`;
             zIndex = 40 - offsetFromTop * 5;
-            // Opacidade e filtro que preservam o contorno das cartas sem expor a foto completa dos cards de trás
             opacity = offsetFromTop === 0 ? 1 : Math.max(0.96 - offsetFromTop * 0.04, 0.85);
             filter = offsetFromTop === 0 ? 'none' : 'brightness(0.88) contrast(0.96)';
           } else {
-            // ==========================================
             // ESTADO ABERTO (CARD EM FOCO & CASCATA LATERAL)
-            // ==========================================
             const diff = i - currentIndex; // 0 = card em foco, < 0 = esquerda, > 0 = direita
 
             if (diff === 0) {
-              // Card Central em Foco
               const dragX = isDragging ? dragOffset.x : 0;
               const dragRot = isDragging ? dragOffset.x * 0.05 : 0;
               transform = `translate3d(${dragX}px, 0, 0) rotate(${dragRot}deg) scale(1.06)`;
@@ -280,7 +271,6 @@ export const StackedDeck: React.FC<StackedDeckProps> = ({
               opacity = 1;
               filter = 'none';
             } else if (diff < 0) {
-              // Cards Anteriores (À esquerda)
               const depth = Math.abs(diff);
               const tx = -38 * depth + (isDragging ? dragOffset.x * 0.3 : 0);
               const rot = -3.5 * depth;
@@ -290,7 +280,6 @@ export const StackedDeck: React.FC<StackedDeckProps> = ({
               opacity = Math.max(0.65 - depth * 0.2, 0.15);
               filter = 'brightness(0.92)';
             } else {
-              // Cards Posteriores (À direita)
               const depth = diff;
               const tx = 38 * depth + (isDragging ? dragOffset.x * 0.3 : 0);
               const rot = 3.5 * depth;
@@ -301,6 +290,8 @@ export const StackedDeck: React.FC<StackedDeckProps> = ({
               filter = 'brightness(0.92)';
             }
           }
+
+          const imgSrc = failedImages[card.id] && card.fallbackImage ? card.fallbackImage : card.image;
 
           return (
             <div
@@ -314,22 +305,23 @@ export const StackedDeck: React.FC<StackedDeckProps> = ({
                 filter,
                 transition: isDragging ? 'none' : 'transform 420ms cubic-bezier(0.16, 1, 0.3, 1), opacity 350ms ease, filter 350ms ease',
               }}
-              className="absolute inset-0 w-[290px] sm:w-[320px] h-[420px] sm:h-[460px] rounded-[12px] overflow-hidden bg-[#FAF7F2] border border-[#8FAF87]/50 shadow-[-6px_10px_28px_rgba(28,41,27,0.2)] will-change-transform cursor-pointer"
+              className="absolute inset-0 w-[290px] sm:w-[320px] h-[420px] sm:h-[460px] rounded-[16px] overflow-hidden bg-[#243321] border border-[#8FAF87]/50 shadow-[-6px_10px_28px_rgba(28,41,27,0.2)] will-change-transform cursor-pointer"
             >
               {/* Imagem de Fundo Completa do Card */}
               <img
-                src={card.image}
+                src={imgSrc}
                 alt={card.alt || card.caption || 'Foto da Lorien ou do Espaço'}
                 referrerPolicy="no-referrer"
-                loading={i <= 1 ? 'eager' : 'lazy'}
+                loading="eager"
                 decoding="async"
+                onError={() => handleImageError(card.id)}
                 className="w-full h-full object-cover object-center pointer-events-none"
               />
 
               {/* Overlay Gradiente Sutil na Base para Legibilidade da Legenda */}
-              <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-[#1C291B]/85 via-[#1C291B]/40 to-transparent pointer-events-none" />
+              <div className="absolute inset-x-0 bottom-0 h-36 bg-gradient-to-t from-[#1C291B]/95 via-[#1C291B]/55 to-transparent pointer-events-none" />
 
-              {/* Legenda na base do Card (Tipografia Serifada nos Títulos) */}
+              {/* Legenda na base do Card */}
               <div className="absolute inset-x-0 bottom-0 p-4 sm:p-5 text-white pointer-events-none">
                 {card.caption && (
                   <h4 className="font-serif text-lg sm:text-xl font-normal tracking-wide text-[#FAF7F2] drop-shadow-sm leading-snug">

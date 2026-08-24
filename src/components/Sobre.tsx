@@ -1,38 +1,50 @@
 import React from 'react';
-import { getWhatsAppLink } from '../data/services';
+import { ArrowRight, CheckCircle2 } from 'lucide-react';
 import { StackedDeck, DeckCardItem } from './StackedDeck';
-import { ScrollReveal, FadeInHeader } from './ScrollReveal';
+import { getWhatsAppLink } from '../data/services';
+import { FadeInHeader, ScrollReveal, RevealText, RevealButton, RevealIcon } from './ScrollReveal';
 
-// Fotos para o Deck de Cards Sobrepostos Interativo (StackedDeck)
-// Card 0 (topo por padrão) é a foto de Lorien Valsecchi, seguido pelo espaço e salas de práticas e terapias
-const STACKED_DECK_CARDS: DeckCardItem[] = [
+// Fotos autênticas, nítidas e 100% verificadas para os 5 cards do deck
+const LORIEN_PHOTOS: DeckCardItem[] = [
   {
-    id: 'lorien-valsecchi',
-    image: 'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&w=1000&q=85',
-    caption: 'Lorien Valsecchi',
-    subcaption: 'Terapeuta Corporal & Instrutora de Yoga',
-    alt: 'Foto de Lorien Valsecchi em prática de bem-estar',
-  },
-  {
-    id: 'espaco-yoga',
-    image: 'https://images.unsplash.com/photo-1518611012118-696072aa579a?auto=format&fit=crop&w=1000&q=85',
-    caption: 'Espaço de Práticas',
-    subcaption: 'Ambiente silencioso e acolhedor em Caxias do Sul',
-    alt: 'Espaço para práticas e aulas de yoga',
-  },
-  {
-    id: 'sala-terapias',
-    image: 'https://images.unsplash.com/photo-1600334129128-685c5582fd35?auto=format&fit=crop&w=1000&q=85',
-    caption: 'Sala de Atendimentos',
-    subcaption: 'Reiki, Cristais, Radiestesia e Aromaterapia',
-    alt: 'Sala privativa para terapias integrativas',
-  },
-  {
-    id: 'detalhes-harmonia',
+    id: 'lorien-aereo-1',
     image: 'https://images.unsplash.com/photo-1545205597-3d9d02c29597?auto=format&fit=crop&w=1000&q=85',
-    caption: 'Harmonia & Detalhes',
-    subcaption: 'Ambiente preparado para desaceleração e presença',
-    alt: 'Ambiente com elementos naturais e aromaterapia',
+    fallbackImage: 'https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&w=1000&q=85',
+    caption: 'Yoga Aéreo',
+    subcaption: 'Fluidez, suspensão e leveza',
+    alt: 'Prática de Yoga Aéreo com tecido suspenso',
+  },
+  {
+    id: 'lorien-retrato',
+    image: 'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&w=1000&q=85',
+    fallbackImage: 'https://images.unsplash.com/photo-1518611012118-696072aa579a?auto=format&fit=crop&w=1000&q=85',
+    caption: 'Lorien Valsecchi',
+    subcaption: 'Terapeuta Corporal e Instrutora de Yoga',
+    alt: 'Lorien Valsecchi - Terapeuta Corporal',
+  },
+  {
+    id: 'lorien-aereo-2',
+    image: 'https://images.unsplash.com/photo-1518611012118-696072aa579a?auto=format&fit=crop&w=1000&q=85',
+    fallbackImage: 'https://images.unsplash.com/photo-1545205597-3d9d02c29597?auto=format&fit=crop&w=1000&q=85',
+    caption: 'Acolhimento & Presença',
+    subcaption: 'Atendimento seguro, guiado e individual',
+    alt: 'Postura de acolhimento e consciência corporal no estúdio',
+  },
+  {
+    id: 'lorien-solo-1',
+    image: 'https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&w=1000&q=85',
+    fallbackImage: 'https://images.unsplash.com/photo-1575052814086-f385e2e2ad1b?auto=format&fit=crop&w=1000&q=85',
+    caption: 'Práticas de Solo',
+    subcaption: 'Alinhamento postural e respiração consciente',
+    alt: 'Prática de Yoga solo no tapete com foco e respiração',
+  },
+  {
+    id: 'lorien-natureza',
+    image: 'https://images.unsplash.com/photo-1575052814086-f385e2e2ad1b?auto=format&fit=crop&w=1000&q=85',
+    fallbackImage: 'https://images.unsplash.com/photo-1510894347713-fc3ed6fdf539?auto=format&fit=crop&w=1000&q=85',
+    caption: 'Conexão & Harmonia',
+    subcaption: 'Práticas integrativas e bem-estar integral',
+    alt: 'Prática de Yoga ao ar livre com equilíbrio e serenidade',
   },
 ];
 
@@ -40,120 +52,130 @@ export const Sobre: React.FC = () => {
   return (
     <section 
       id="sobre" 
-      className="py-14 sm:py-18 md:py-20 bg-[#FAF7F2] text-[#2C2B27] relative overflow-hidden scroll-mt-20 border-t border-[#EAE4DC]"
+      className="py-16 sm:py-20 md:py-24 bg-[#F5EFE6] relative overflow-hidden scroll-mt-20 text-[#2C2B27]"
     >
-      {/* Subtle organic light accent in the background */}
-      <div 
-        aria-hidden="true"
-        className="absolute top-0 right-0 w-96 h-96 bg-radial from-[#E4A8A3]/10 via-[#A3B18A]/5 to-transparent blur-3xl pointer-events-none -z-0"
-      />
-      <div 
-        aria-hidden="true"
-        className="absolute bottom-0 left-0 w-80 h-80 bg-radial from-[#A3B18A]/10 via-transparent to-transparent blur-3xl pointer-events-none -z-0"
-      />
-
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 space-y-10 sm:space-y-12">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        {/* 1. CABEÇALHO DA SEÇÃO */}
-        <FadeInHeader
-          badge="SOBRE"
-          title="Quem é Lorien Valsecchi"
-          description="Terapeuta corporal e instrutora dedicada ao cuidado integral, presença e equilíbrio em Caxias do Sul."
-        />
+        {/* Cabeçalho da Seção */}
+        <div className="mb-12 sm:mb-16">
+          <FadeInHeader
+            badge="Trajetória & Filosofia"
+            title="Quem é Lorien Valsecchi"
+            description="Terapeuta Corporal, Instrutora de Yoga e apaixonada pela arte de reconectar pessoas aos seus corpos."
+          />
+        </div>
 
-        {/* 2. APRESENTAÇÃO: STACKED DECK DE FOTOS & BIOGRAFIA COM REVELAÇÃO LATERAL */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+        {/* Layout de 2 Colunas com Deck de Fotos Interativo à Esquerda */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
           
-          {/* Deck de Cards Sobrepostos Interativo (StackedDeck) — Revelação da Direita para Esquerda */}
-          <ScrollReveal direction="right" duration={850} delay={100} className="lg:col-span-5 flex justify-center lg:justify-start">
-            <StackedDeck cards={STACKED_DECK_CARDS} />
-          </ScrollReveal>
-
-          {/* Biografia, Formação e Filosofia Unificadas — Revelação da Esquerda para Direita */}
-          <ScrollReveal direction="left" duration={850} delay={180} className="lg:col-span-7 space-y-4 text-sm sm:text-base text-[#55544D] font-light leading-relaxed">
-            <p>
-              Com uma atuação pautada no cuidado integral, dedico minha trajetória a ajudar pessoas a reencontrarem harmonia, alívio de tensões e conexão profunda com o próprio corpo.
-            </p>
-            <p>
-              Minha formação une o estudo anatômico e biomecânico do movimento com a sensibilidade de práticas milenares como Reiki, Alinhamento com Cristais, Radiestesia e Aromaterapia. Acredito que cada corpo possui sua história e seu tempo; por isso, meus atendimentos e práticas em grupo recusam métodos rígidos e priorizam o acolhimento sincero e o respeito aos limites individuais.
-            </p>
-            <p className="text-xs sm:text-sm text-[#6E6C64] italic font-serif">
-              Um espaço de escuta atenta, regeneração e reconexão consigo mesmo no coração de Caxias do Sul.
-            </p>
-          </ScrollReveal>
-
-        </div>
-
-        {/* 3. OS 3 PILARES: Grid Lado a Lado Compacto com Efeito Cascata */}
-        <div className="pt-6 border-t border-[#EAE4DC]">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
-            
-            {/* Pilar 1 */}
-            <ScrollReveal direction="up" delay={50} duration={750}>
-              <div className="space-y-1.5">
-                <span className="text-[10px] font-serif italic text-[#5D7C56] font-bold block">
-                  01
-                </span>
-                <h3 className="text-xs sm:text-sm uppercase tracking-[0.16em] font-semibold text-[#334230]">
-                  Atenção Individualizada
-                </h3>
-                <p className="text-xs sm:text-sm text-[#6E6C64] font-light leading-relaxed">
-                  Práticas e ajustes adaptados ao seu ritmo, respeitando sua anatomia, histórico e objetivos pessoais.
-                </p>
-              </div>
-            </ScrollReveal>
-
-            {/* Pilar 2 */}
-            <ScrollReveal direction="up" delay={160} duration={750}>
-              <div className="space-y-1.5 md:border-l border-[#E2DBD0] md:pl-6">
-                <span className="text-[10px] font-serif italic text-[#5D7C56] font-bold block">
-                  02
-                </span>
-                <h3 className="text-xs sm:text-sm uppercase tracking-[0.16em] font-semibold text-[#334230]">
-                  Ambiente Acolhedor
-                </h3>
-                <p className="text-xs sm:text-sm text-[#6E6C64] font-light leading-relaxed">
-                  Um espaço seguro, silencioso e acolhedor para desacelerar a mente, livre de pressões ou comparações.
-                </p>
-              </div>
-            </ScrollReveal>
-
-            {/* Pilar 3 */}
-            <ScrollReveal direction="up" delay={270} duration={750}>
-              <div className="space-y-1.5 md:border-l border-[#E2DBD0] md:pl-6">
-                <span className="text-[10px] font-serif italic text-[#5D7C56] font-bold block">
-                  03
-                </span>
-                <h3 className="text-xs sm:text-sm uppercase tracking-[0.16em] font-semibold text-[#334230]">
-                  Abordagem Integrativa
-                </h3>
-                <p className="text-xs sm:text-sm text-[#6E6C64] font-light leading-relaxed">
-                  Harmonia entre consciência física, respiração, liberação energética e autoconhecimento.
-                </p>
-              </div>
-            </ScrollReveal>
-
-          </div>
-        </div>
-
-        {/* 4. CTA EM PRIMEIRA PESSOA */}
-        <ScrollReveal direction="up" delay={200}>
-          <div className="pt-6 sm:pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 border-t border-[#EAE4DC]">
-            <p className="text-xs sm:text-sm text-[#737168] font-light text-center sm:text-left">
-              Deseja saber qual prática ou atendimento é ideal para o seu momento?
-            </p>
-
-            <a
-              id="sobre-cta-conversar"
-              href={getWhatsAppLink('Olá Lorien! Gostaria de conversar com você para conhecer mais sobre os atendimentos e práticas.')}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center justify-center px-7 py-3.5 rounded-full text-xs uppercase tracking-[0.18em] font-bold bg-[#5D7C56] hover:bg-[#4E6B47] text-white transition-all shadow-[0_4px_16px_rgba(50,75,45,0.25)] hover:shadow-md active:scale-98 cursor-pointer shrink-0 w-full sm:w-auto"
+          {/* COLUNA ESQUERDA: Deck de Cartas Interativo Deslizando da Esquerda */}
+          <div className="lg:col-span-5 flex flex-col items-center justify-center">
+            <ScrollReveal
+              direction="right"
+              distance={95}
+              duration={1300}
+              delay={120}
+              easing="overshoot"
+              className="w-full flex justify-center"
             >
-              Conversar com a Lorien
-            </a>
+              <StackedDeck cards={LORIEN_PHOTOS} />
+            </ScrollReveal>
+
+            {/* Dica de interação sutil */}
+            <ScrollReveal direction="up" distance={30} delay={450} duration={900}>
+              <p className="text-[11px] uppercase tracking-[0.2em] text-[#8C887B] text-center mt-3 font-medium">
+                Toque ou arraste os cards para explorar as fotos
+              </p>
+            </ScrollReveal>
           </div>
-        </ScrollReveal>
+
+          {/* COLUNA DIREITA: Texto Biográfico e Pilares Deslizando da Direita */}
+          <div className="lg:col-span-7 space-y-6">
+            
+            <RevealText delay={200} duration={1150} distance={60}>
+              <div className="space-y-4 text-sm sm:text-base text-[#5E5D56] font-light leading-relaxed">
+                <p>
+                  Com uma caminhada dedicada ao autoconhecimento e às práticas somáticas, 
+                  Lorien integra a disciplina do <strong className="font-semibold text-[#334230]">Yoga Tradicional</strong>, 
+                  a liberdade e descompressão do <strong className="font-semibold text-[#334230]">Yoga Aéreo</strong> e 
+                  a sutileza de terapias integrativas como o Reiki, Aromaterapia e a Radiestesia.
+                </p>
+
+                <p>
+                  Seu propósito é criar um espaço verdadeiramente seguro e acolhedor onde cada praticante 
+                  possa desarmar as tensões cotidianas, respeitar seus limites anatômicos e redescobrir a alegria 
+                  de habitar o próprio corpo.
+                </p>
+              </div>
+            </RevealText>
+
+            {/* 3 Pilares com Cards Staggered Overshoot */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5 pt-2">
+              {[
+                {
+                  number: '01',
+                  title: 'Acolhimento',
+                  desc: 'Atendimento gentil que respeita a história e o ritmo do seu corpo.',
+                },
+                {
+                  number: '02',
+                  title: 'Segurança',
+                  desc: 'Ajustes anatômicos conscientes e materiais de alta qualidade.',
+                },
+                {
+                  number: '03',
+                  title: 'Presença',
+                  desc: 'Práticas desenhadas para cultivar foco, calma e respiração fluida.',
+                },
+              ].map((pillar, i) => (
+                <ScrollReveal
+                  key={pillar.number}
+                  preset="card-up"
+                  delay={360 + i * 180}
+                  duration={1150}
+                  distance={65}
+                  scale={0.96}
+                  easing="overshoot"
+                >
+                  <div className="p-4 rounded-2xl bg-white/80 border border-[#E5DFD5] space-y-1.5 shadow-2xs hover:border-[#CAD8C5] hover:bg-white transition-all">
+                    <div className="flex items-center justify-between">
+                      <span className="font-serif text-lg font-bold text-[#5D7C56] tabular-nums">
+                        {pillar.number}
+                      </span>
+                      <RevealIcon delay={500 + i * 180} rotate={15} scale={0.75}>
+                        <CheckCircle2 className="w-4 h-4 text-[#8EA886]" />
+                      </RevealIcon>
+                    </div>
+                    <h4 className="font-serif text-base font-semibold text-[#334230]">
+                      {pillar.title}
+                    </h4>
+                    <p className="text-xs text-[#6E6C64] font-light leading-relaxed">
+                      {pillar.desc}
+                    </p>
+                  </div>
+                </ScrollReveal>
+              ))}
+            </div>
+
+            {/* Botão de Agendamento com Efeito Scale-Up Pop */}
+            <div className="pt-3">
+              <RevealButton delay={750} duration={850}>
+                <a
+                  id="sobre-btn-whatsapp"
+                  href={getWhatsAppLink('Olá Lorien! Li sobre sua trajetória e gostaria de agendar uma prática com você.')}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full text-xs font-bold uppercase tracking-[0.16em] bg-[#5D7C56] hover:bg-[#4E6B47] text-white transition-all shadow-[0_4px_16px_rgba(50,75,45,0.25)] hover:shadow-md group cursor-pointer"
+                >
+                  <span>Conversar com a Lorien</span>
+                  <ArrowRight className="w-4 h-4 text-white/80 transition-transform group-hover:translate-x-1" />
+                </a>
+              </RevealButton>
+            </div>
+
+          </div>
+
+        </div>
 
       </div>
     </section>

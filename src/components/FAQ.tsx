@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { ChevronDown } from 'lucide-react';
-import { getWhatsAppLink } from '../data/services';
-import { ScrollReveal, FadeInHeader } from './ScrollReveal';
+import { FadeInHeader, ScrollReveal } from './ScrollReveal';
 
 interface FAQItem {
   id: string;
@@ -65,12 +64,20 @@ export const FAQ: React.FC = () => {
           />
         </div>
 
-        {/* Acordeão de Perguntas com Efeito Cascata */}
+        {/* Acordeão de Perguntas com Efeito Cascata e Overshoot */}
         <div className="space-y-3.5" role="region" aria-label="Lista de Perguntas Frequentes">
           {FAQ_ITEMS.map((item, index) => {
             const isOpen = openId === item.id;
             return (
-              <ScrollReveal key={item.id} direction="up" delay={index * 60} duration={700}>
+              <ScrollReveal
+                key={item.id}
+                preset="card-up"
+                delay={index * 90}
+                duration={1050}
+                distance={60}
+                scale={0.97}
+                easing="overshoot"
+              >
                 <div
                   id={item.id}
                   className={`rounded-2xl border transition-all duration-200 overflow-hidden ${

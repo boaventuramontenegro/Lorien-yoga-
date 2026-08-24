@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { User, Sparkles, Send, Check, HeartHandshake, CheckCircle2, ChevronDown } from 'lucide-react';
 import { WHATSAPP_PHONE } from '../data/services';
-import { ScrollReveal, FadeInHeader } from './ScrollReveal';
+import { FadeInHeader, ScrollReveal, RevealButton } from './ScrollReveal';
 
 const SERVICE_OPTIONS = [
   { id: 'yoga-aereo', label: 'Yoga Aéreo' },
@@ -114,8 +114,15 @@ export const Agendamento: React.FC = () => {
           />
         </div>
 
-        {/* Form Container Card */}
-        <ScrollReveal direction="up" delay={150} duration={850}>
+        {/* Form Container Card with Overshoot Settling */}
+        <ScrollReveal
+          preset="card-up"
+          delay={160}
+          duration={1250}
+          distance={85}
+          scale={0.96}
+          easing="overshoot"
+        >
           <div className="rounded-[28px] sm:rounded-[36px] bg-white border border-[#E5DFD5] p-6 sm:p-10 md:p-12 shadow-[0_8px_32px_rgba(25,35,20,0.06)] relative">
           
           {isSubmitted ? (
@@ -292,20 +299,22 @@ export const Agendamento: React.FC = () => {
                 </div>
               )}
 
-              {/* Submit CTA */}
+              {/* Submit CTA with RevealButton */}
               <div className="pt-3 flex flex-col sm:flex-row items-center justify-between gap-4 border-t border-[#F0EBE3]">
                 <p className="text-xs text-[#8C887B] font-light text-center sm:text-left">
                   Seus dados serão enviados de forma privada diretamente para o WhatsApp da Lorien.
                 </p>
 
-                <button
-                  id="btn-enviar-agendamento"
-                  type="submit"
-                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-9 py-4 rounded-full text-xs uppercase tracking-[0.2em] font-bold bg-[#5D7C56] hover:bg-[#4E6B47] text-white shadow-[0_4px_16px_rgba(50,75,45,0.25)] hover:shadow-md active:scale-98 transition-all cursor-pointer shrink-0"
-                >
-                  <span>Enviar</span>
-                  <Send className="w-3.5 h-3.5 opacity-90" />
-                </button>
+                <RevealButton delay={200}>
+                  <button
+                    id="btn-enviar-agendamento"
+                    type="submit"
+                    className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-9 py-4 rounded-full text-xs uppercase tracking-[0.2em] font-bold bg-[#5D7C56] hover:bg-[#4E6B47] text-white shadow-[0_4px_16px_rgba(50,75,45,0.25)] hover:shadow-md active:scale-98 transition-all cursor-pointer shrink-0"
+                  >
+                    <span>Enviar</span>
+                    <Send className="w-3.5 h-3.5 opacity-90" />
+                  </button>
+                </RevealButton>
               </div>
 
             </form>

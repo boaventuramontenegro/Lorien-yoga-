@@ -2,7 +2,7 @@ import React from 'react';
 import { Instagram, MapPin, Phone, Mail, ArrowUp, Clock } from 'lucide-react';
 import { Logo } from './Logo';
 import { FULL_ADDRESS, INSTAGRAM_URL, WHATSAPP_DISPLAY, getWhatsAppLink, MAPS_URL } from '../data/services';
-import { ScrollReveal } from './ScrollReveal';
+import { ScrollReveal, RevealIcon } from './ScrollReveal';
 
 export const Footer: React.FC = () => {
   const scrollToTop = () => {
@@ -17,7 +17,13 @@ export const Footer: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-12 gap-8 lg:gap-10 pb-10 border-b border-white/10 items-start">
           
           {/* COLUNA 1 — MARCA (md:col-span-4) */}
-          <ScrollReveal direction="up" delay={50} className="md:col-span-4 space-y-4">
+          <ScrollReveal
+            preset="card-up"
+            delay={60}
+            duration={1150}
+            distance={70}
+            className="md:col-span-4 space-y-4"
+          >
             <div className="flex items-center gap-3.5">
               <Logo size="lg" variant="dark" showText={false} />
               <div className="flex flex-col justify-center">
@@ -37,22 +43,30 @@ export const Footer: React.FC = () => {
 
             {/* Social Channel: Instagram */}
             <div className="flex items-center gap-3 pt-1">
-              <a
-                id="footer-instagram-link"
-                href={INSTAGRAM_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Instagram de Lorien"
-                title="Seguir Lorien Valsecchi no Instagram"
-                className="w-9 h-9 rounded-full bg-white/10 hover:bg-[#5D7C56] text-white flex items-center justify-center transition-all cursor-pointer hover:scale-105 active:scale-95"
-              >
-                <Instagram className="w-4 h-4" />
-              </a>
+              <RevealIcon delay={220} rotate={-10} scale={0.85}>
+                <a
+                  id="footer-instagram-link"
+                  href={INSTAGRAM_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Instagram de Lorien"
+                  title="Seguir Lorien Valsecchi no Instagram"
+                  className="w-9 h-9 rounded-full bg-white/10 hover:bg-[#5D7C56] text-white flex items-center justify-center transition-all cursor-pointer hover:scale-105 active:scale-95"
+                >
+                  <Instagram className="w-4 h-4" />
+                </a>
+              </RevealIcon>
             </div>
           </ScrollReveal>
 
           {/* COLUNA 2 — NAVEGAÇÃO (md:col-span-2) */}
-          <ScrollReveal direction="up" delay={120} className="md:col-span-2 space-y-3">
+          <ScrollReveal
+            preset="card-up"
+            delay={200}
+            duration={1150}
+            distance={70}
+            className="md:col-span-2 space-y-3"
+          >
             <span className="text-xs uppercase tracking-[0.2em] font-bold text-[#A3BFA0] block">
               Navegação
             </span>
@@ -85,7 +99,13 @@ export const Footer: React.FC = () => {
           </ScrollReveal>
 
           {/* COLUNA 3 — CONTATO (md:col-span-3) */}
-          <ScrollReveal direction="up" delay={190} className="md:col-span-3 space-y-3">
+          <ScrollReveal
+            preset="card-up"
+            delay={340}
+            duration={1150}
+            distance={70}
+            className="md:col-span-3 space-y-3"
+          >
             <span className="text-xs uppercase tracking-[0.2em] font-bold text-[#A3BFA0] block">
               Contato
             </span>
@@ -130,7 +150,13 @@ export const Footer: React.FC = () => {
           </ScrollReveal>
 
           {/* COLUNA 4 — LOCALIZAÇÃO (md:col-span-3) */}
-          <ScrollReveal direction="up" delay={260} className="md:col-span-3 space-y-3">
+          <ScrollReveal
+            preset="card-up"
+            delay={480}
+            duration={1150}
+            distance={70}
+            className="md:col-span-3 space-y-3"
+          >
             <span className="text-xs uppercase tracking-[0.2em] font-bold text-[#A3BFA0] block">
               Localização
             </span>
@@ -187,4 +213,3 @@ export const Footer: React.FC = () => {
     </footer>
   );
 };
-

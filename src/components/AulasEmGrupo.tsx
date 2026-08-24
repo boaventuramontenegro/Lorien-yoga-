@@ -1,7 +1,7 @@
 import React from 'react';
 import { ArrowRight } from 'lucide-react';
 import { getWhatsAppLink } from '../data/services';
-import { ScrollReveal, FadeInHeader } from './ScrollReveal';
+import { FadeInHeader, ScrollReveal, RevealButton } from './ScrollReveal';
 
 export const AulasEmGrupo: React.FC = () => {
   return (
@@ -27,13 +27,20 @@ export const AulasEmGrupo: React.FC = () => {
           </div>
         </FadeInHeader>
 
-        {/* 2. PROGRAMAÇÃO EM CARDS ÚNICOS E COMPLETOS (STAGGER) */}
+        {/* 2. PROGRAMAÇÃO EM CARDS COM ENTRADA LATERAL ALTERNADA E OVERSHOOT */}
         <div className="space-y-4 sm:space-y-5">
           
-          {/* CARD 1: QUINTA-FEIRA */}
-          <ScrollReveal direction="up" delay={80} duration={800}>
+          {/* CARD 1: QUINTA-FEIRA (Desliza da Esquerda) */}
+          <ScrollReveal
+            direction="right"
+            distance={90}
+            delay={100}
+            duration={1200}
+            scale={0.97}
+            easing="overshoot"
+          >
             <div className="relative rounded-2xl bg-white/90 border border-[#E5E0D8] p-6 sm:p-7 shadow-2xs hover:border-[#CAD8C5] transition-all">
-              {/* Top metadata strip (Mobile / Tablet / Desktop) */}
+              {/* Top metadata strip */}
               <div className="flex items-center justify-between pb-4 border-b border-[#F0EBE3] text-[11px] uppercase tracking-[0.2em]">
                 <span className="font-semibold text-[#5D7C56] flex items-center gap-1.5">
                   <span className="w-1.5 h-1.5 rounded-full bg-[#5D7C56]" />
@@ -42,7 +49,7 @@ export const AulasEmGrupo: React.FC = () => {
                 <span className="text-[#8A887E] font-medium">Semanal</span>
               </div>
 
-              {/* Main Content: 3-area horizontal layout on desktop, stacked on mobile */}
+              {/* Main Content */}
               <div className="pt-5 grid grid-cols-1 md:grid-cols-12 gap-5 md:gap-6 items-center">
                 
                 {/* ÁREA 1: Dia + Horário */}
@@ -70,26 +77,35 @@ export const AulasEmGrupo: React.FC = () => {
                   </div>
                 </div>
 
-                {/* ÁREA 3: Reserva Direta */}
+                {/* ÁREA 3: Reserva Direta com RevealButton */}
                 <div className="md:col-span-3 flex justify-start md:justify-end pt-2 md:pt-0">
-                  <a
-                    id="btn-reserva-quinta"
-                    href={getWhatsAppLink('Olá Lorien! Gostaria de reservar minha vaga na aula de Yoga em Grupo de Quinta-feira às 19h no Le Parc Arbos.')}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center justify-center gap-2 w-full sm:w-auto px-6 py-3 rounded-full text-xs font-bold uppercase tracking-[0.16em] bg-[#5D7C56] hover:bg-[#4E6B47] text-white transition-all shadow-[0_4px_16px_rgba(50,75,45,0.25)] hover:shadow-md group cursor-pointer"
-                  >
-                    <span>Reservar</span>
-                    <ArrowRight className="w-3.5 h-3.5 text-white/80 transition-transform group-hover:translate-x-0.5" />
-                  </a>
+                  <RevealButton delay={250}>
+                    <a
+                      id="btn-reserva-quinta"
+                      href={getWhatsAppLink('Olá Lorien! Gostaria de reservar minha vaga na aula de Yoga em Grupo de Quinta-feira às 19h no Le Parc Arbos.')}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center justify-center gap-2 w-full sm:w-auto px-6 py-3 rounded-full text-xs font-bold uppercase tracking-[0.16em] bg-[#5D7C56] hover:bg-[#4E6B47] text-white transition-all shadow-[0_4px_16px_rgba(50,75,45,0.25)] hover:shadow-md group cursor-pointer"
+                    >
+                      <span>Reservar</span>
+                      <ArrowRight className="w-3.5 h-3.5 text-white/80 transition-transform group-hover:translate-x-0.5" />
+                    </a>
+                  </RevealButton>
                 </div>
 
               </div>
             </div>
           </ScrollReveal>
 
-          {/* CARD 2: SÁBADOS */}
-          <ScrollReveal direction="up" delay={200} duration={800}>
+          {/* CARD 2: SÁBADOS (Desliza da Direita) */}
+          <ScrollReveal
+            direction="left"
+            distance={90}
+            delay={280}
+            duration={1200}
+            scale={0.97}
+            easing="overshoot"
+          >
             <div className="relative rounded-2xl bg-white/90 border border-[#E5E0D8] p-6 sm:p-7 shadow-2xs hover:border-[#CAD8C5] transition-all">
               {/* Top metadata strip */}
               <div className="flex items-center justify-between pb-4 border-b border-[#F0EBE3] text-[11px] uppercase tracking-[0.2em]">
@@ -100,7 +116,7 @@ export const AulasEmGrupo: React.FC = () => {
                 <span className="text-[#8A887E] font-medium">Semanal</span>
               </div>
 
-              {/* Main Content: 3-area horizontal layout on desktop, stacked on mobile */}
+              {/* Main Content */}
               <div className="pt-5 grid grid-cols-1 md:grid-cols-12 gap-5 md:gap-6 items-center">
                 
                 {/* ÁREA 1: Dia + Horário */}
@@ -128,18 +144,20 @@ export const AulasEmGrupo: React.FC = () => {
                   </div>
                 </div>
 
-                {/* ÁREA 3: Reserva Direta */}
+                {/* ÁREA 3: Reserva Direta com RevealButton */}
                 <div className="md:col-span-3 flex justify-start md:justify-end pt-2 md:pt-0">
-                  <a
-                    id="btn-reserva-sabado"
-                    href={getWhatsAppLink('Olá Lorien! Gostaria de reservar minha vaga na aula de Yoga em Grupo de Sábado às 9h30 no Le Parc Arbos.')}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center justify-center gap-2 w-full sm:w-auto px-6 py-3 rounded-full text-xs font-bold uppercase tracking-[0.16em] bg-[#5D7C56] hover:bg-[#4E6B47] text-white transition-all shadow-[0_4px_16px_rgba(50,75,45,0.25)] hover:shadow-md group cursor-pointer"
-                  >
-                    <span>Reservar</span>
-                    <ArrowRight className="w-3.5 h-3.5 text-white/80 transition-transform group-hover:translate-x-0.5" />
-                  </a>
+                  <RevealButton delay={400}>
+                    <a
+                      id="btn-reserva-sabado"
+                      href={getWhatsAppLink('Olá Lorien! Gostaria de reservar minha vaga na aula de Yoga em Grupo de Sábado às 9h30 no Le Parc Arbos.')}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center justify-center gap-2 w-full sm:w-auto px-6 py-3 rounded-full text-xs font-bold uppercase tracking-[0.16em] bg-[#5D7C56] hover:bg-[#4E6B47] text-white transition-all shadow-[0_4px_16px_rgba(50,75,45,0.25)] hover:shadow-md group cursor-pointer"
+                    >
+                      <span>Reservar</span>
+                      <ArrowRight className="w-3.5 h-3.5 text-white/80 transition-transform group-hover:translate-x-0.5" />
+                    </a>
+                  </RevealButton>
                 </div>
 
               </div>
@@ -149,7 +167,12 @@ export const AulasEmGrupo: React.FC = () => {
         </div>
 
         {/* 3. INFORMAÇÕES DE LOCALIZAÇÃO & VAGAS LIMITADAS */}
-        <ScrollReveal direction="up" delay={260}>
+        <ScrollReveal
+          preset="card-up"
+          delay={450}
+          duration={1100}
+          distance={60}
+        >
           <div className="rounded-2xl bg-[#F4EFEA]/80 border border-[#E5E0D8] p-5 sm:p-6 text-center sm:text-left space-y-1">
             <h4 className="text-xs sm:text-sm uppercase tracking-[0.16em] font-semibold text-[#383A2A]">
               Vagas limitadas para máximo acolhimento
@@ -164,4 +187,3 @@ export const AulasEmGrupo: React.FC = () => {
     </section>
   );
 };
-

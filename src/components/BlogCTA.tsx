@@ -16,7 +16,14 @@ export const BlogCTA: React.FC = () => {
       className="py-10 sm:py-14 md:py-16 relative scroll-mt-20"
     >
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <ScrollReveal direction="up" duration={850} delay={60}>
+        <ScrollReveal
+          direction="up"
+          distance={70}
+          scale={0.97}
+          duration={1300}
+          delay={80}
+          easing="overshoot"
+        >
           <a
             id="banner-blog-instagram-link"
             href={INSTAGRAM_TARGET_URL}
@@ -71,4 +78,3 @@ export const BlogCTA: React.FC = () => {
     </section>
   );
 };
-
