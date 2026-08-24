@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 
 export type LogoVariant = 'black' | 'white' | 'dark' | 'light' | 'sage' | 'gold' | 'default';
 
@@ -25,8 +25,11 @@ export const Logo: React.FC<LogoProps> = ({
   const isWhite = variant === 'white' || variant === 'light';
   const isBlack = variant === 'black' || variant === 'dark' || variant === 'default';
 
+  // Processed transparent PNG data URL from cache or null
   const [processedSrc, setProcessedSrc] = useState<string>(transparentCache[variant] || '');
-  const [isLoaded, setIsLoaded] = useState<boolean>(Boolean(transparentCache[variant]));
+  // Track image load state specifically for the <img> tag
+  const [isImgReady, setIsImgReady] = useState<boolean>(false);
+  const isMountedRef = useRef<boolean>(true);
 
   // Standard sizes
   const sizeMap = {
@@ -39,8 +42,9 @@ export const Logo: React.FC<LogoProps> = ({
 
   const processImageToTransparentPng = useCallback((sourceUrl: string, targetVariant: LogoVariant) => {
     if (transparentCache[targetVariant]) {
-      setProcessedSrc(transparentCache[targetVariant]);
-      setIsLoaded(true);
+      if (isMountedRef.current) {
+        setProcessedSrc(transparentCache[targetVariant]);
+      }
       return;
     }
 
@@ -54,11 +58,7 @@ export const Logo: React.FC<LogoProps> = ({
         rawCanvas.width = img.naturalWidth || 500;
         rawCanvas.height = img.naturalHeight || 500;
         const ctx = rawCanvas.getContext('2d', { willReadFrequently: true });
-        if (!ctx) {
-          setProcessedSrc(sourceUrl);
-          setIsLoaded(true);
-          return;
-        }
+        if (!ctx) return;
 
         ctx.drawImage(img, 0, 0);
         const imgData = ctx.getImageData(0, 0, rawCanvas.width, rawCanvas.height);
@@ -72,7 +72,7 @@ export const Logo: React.FC<LogoProps> = ({
         let maxY = 0;
         let hasArt = false;
 
-        // 1st Pass: detect brightness, make white background 100% transparent (alpha 0), and calculate bounding box
+        // 1st Pass: detect brightness, strip solid white/off-white background to 100% alpha transparent
         for (let y = 0; y < h; y++) {
           for (let x = 0; x < w; x++) {
             const idx = (y * w + x) * 4;
@@ -81,13 +81,13 @@ export const Logo: React.FC<LogoProps> = ({
             const b = data[idx + 2];
             const brightness = (r + g + b) / 3;
 
-            // Remove any light background (solid white or off-white)
-            if (brightness > 220) {
-              data[idx + 3] = 0; // 100% Transparent
+            // Remove any light background (solid white or light gray) -> 100% Transparent
+            if (brightness > 215) {
+              data[idx + 3] = 0; // 100% Transparent Alpha
             } else {
-              if (brightness > 175) {
-                const alphaFactor = (220 - brightness) / 45;
-                data[idx + 3] = Math.floor(data[idx + 3] * alphaFactor);
+              if (brightness > 165) {
+                const alphaFactor = (215 - brightness) / 50;
+                data[idx + 3] = Math.floor(data[idx + 3] * Math.max(0, Math.min(1, alphaFactor)));
               }
 
               if (data[idx + 3] > 15) {
@@ -101,7 +101,7 @@ export const Logo: React.FC<LogoProps> = ({
           }
         }
 
-        // 2nd Pass: apply color tinting (Pure White for dark hero / footer, Pure Black for light scrolled header)
+        // 2nd Pass: apply color tinting (Pure White for dark hero / footer, Deep Forest Charcoal for light header)
         for (let i = 0; i < data.length; i += 4) {
           const alpha = data[i + 3];
           if (alpha > 0) {
@@ -118,7 +118,7 @@ export const Logo: React.FC<LogoProps> = ({
               data[i + 1] = 124; // G
               data[i + 2] = 86;  // B
             } else {
-              // Black / Dark
+              // Deep Forest Charcoal
               data[i] = 24;      // R
               data[i + 1] = 30;  // G
               data[i + 2] = 22;  // B
@@ -159,74 +159,86 @@ export const Logo: React.FC<LogoProps> = ({
 
             const trimmedDataUrl = trimmedCanvas.toDataURL('image/png');
             transparentCache[targetVariant] = trimmedDataUrl;
-            setProcessedSrc(trimmedDataUrl);
-            setIsLoaded(true);
+            if (isMountedRef.current) {
+              setProcessedSrc(trimmedDataUrl);
+            }
             return;
           }
         }
 
         const dataUrl = rawCanvas.toDataURL('image/png');
         transparentCache[targetVariant] = dataUrl;
-        setProcessedSrc(dataUrl);
-        setIsLoaded(true);
+        if (isMountedRef.current) {
+          setProcessedSrc(dataUrl);
+        }
       } catch {
-        setProcessedSrc(sourceUrl);
-        setIsLoaded(true);
+        // Silent fallback to transparent vector silhouette
       }
     };
 
     img.onerror = () => {
-      setProcessedSrc(sourceUrl);
-      setIsLoaded(true);
+      // Keep vector fallback
     };
   }, []);
 
   useEffect(() => {
+    isMountedRef.current = true;
+    setIsImgReady(false);
+
     if (transparentCache[variant]) {
       setProcessedSrc(transparentCache[variant]);
-      setIsLoaded(true);
-      return;
+    } else {
+      processImageToTransparentPng(OFFICIAL_LOGO_URL, variant);
     }
-    processImageToTransparentPng(OFFICIAL_LOGO_URL, variant);
+
+    return () => {
+      isMountedRef.current = false;
+    };
   }, [variant, processImageToTransparentPng]);
 
   return (
     <div className={`inline-flex items-center gap-3 sm:gap-3.5 bg-transparent p-0 m-0 border-0 ${className}`}>
-      {/* Outer wrapper: Strictly transparent background */}
+      {/* Outer wrapper: Strictly 100% transparent, absolutely no background colors */}
       <div 
         className={`relative flex items-center justify-center shrink-0 bg-transparent overflow-hidden ${sizeMap[size]}`}
+        style={{ backgroundColor: 'transparent' }}
       >
-        {/* Render Image with Treated Fade-In State (Opacity 0 -> 1) */}
+        {/* Instant Vector Silhouette: Always transparent, guarantees zero flash of white boxes or empty outlines */}
+        <svg
+          viewBox="0 0 100 100"
+          className={`absolute inset-0 w-full h-full bg-transparent transition-opacity duration-400 ease-out pointer-events-none select-none ${
+            isImgReady ? 'opacity-0' : 'opacity-100'
+          } ${isWhite ? 'text-white' : 'text-[#182315]'}`}
+          fill="currentColor"
+          aria-hidden="true"
+          style={{ backgroundColor: 'transparent' }}
+        >
+          {/* Meditative Lotus & Silhouette */}
+          <circle cx="50" cy="28" r="9" />
+          <path d="M50 40 C44 40 37 46 36 56 C35 63 32 68 22 72 C32 73 40 70 45 66 C47 68 50 69 50 69 C50 69 53 68 55 66 C60 70 68 73 78 72 C68 68 65 63 64 56 C63 46 56 40 50 40 Z" />
+          <path d="M50 71 C42 71 35 74 27 79 C37 81 45 78 50 75 C55 78 63 81 73 79 C65 74 58 71 50 71 Z" opacity="0.85" />
+          <path d="M50 16 C53 20 57 23 62 25 C58 27 54 27 50 25 C46 27 42 27 38 25 C43 23 47 20 50 16 Z" opacity="0.75" />
+        </svg>
+
+        {/* High-Resolution Alpha-Transparent PNG with Smooth Fade-In via onLoad */}
         {processedSrc ? (
           <img
             src={processedSrc}
             alt="Lorien Valsecchi - Silhueta Meditação e Yoga"
             referrerPolicy="no-referrer"
-            onLoad={() => setIsLoaded(true)}
-            className={`w-full h-full object-contain bg-transparent select-none pointer-events-none transition-opacity duration-300 ease-out ${
-              isLoaded ? 'opacity-100' : 'opacity-0'
+            onLoad={() => {
+              if (isMountedRef.current) {
+                setIsImgReady(true);
+              }
+            }}
+            className={`w-full h-full object-contain bg-transparent select-none pointer-events-none transition-opacity duration-400 ease-out ${
+              isImgReady ? 'opacity-100' : 'opacity-0'
             }`}
-            style={{ background: 'transparent' }}
+            style={{ backgroundColor: 'transparent', border: 'none', outline: 'none' }}
             loading="eager"
             decoding="async"
           />
-        ) : (
-          /* Elegant inline SVG silhouette placeholder while transparent canvas initializes (Zero white box flash) */
-          <svg
-            viewBox="0 0 100 100"
-            className={`w-full h-full bg-transparent transition-opacity duration-300 ease-out ${
-              isWhite ? 'text-white' : 'text-[#182315]'
-            }`}
-            fill="currentColor"
-            aria-hidden="true"
-          >
-            {/* Meditative Lotus Silhouette Outline */}
-            <circle cx="50" cy="28" r="9" />
-            <path d="M50 40 C44 40 37 46 36 56 C35 63 32 68 22 72 C32 73 40 70 45 66 C47 68 50 69 50 69 C50 69 53 68 55 66 C60 70 68 73 78 72 C68 68 65 63 64 56 C63 46 56 40 50 40 Z" />
-            <path d="M50 71 C42 71 35 74 27 79 C37 81 45 78 50 75 C55 78 63 81 73 79 C65 74 58 71 50 71 Z" opacity="0.85" />
-            <path d="M50 16 C53 20 57 23 62 25 C58 27 54 27 50 25 C46 27 42 27 38 25 C43 23 47 20 50 16 Z" opacity="0.75" />
-          </svg>
-        )}
+        ) : null}
       </div>
 
       {showText && (
