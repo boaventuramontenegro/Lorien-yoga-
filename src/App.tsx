@@ -10,7 +10,7 @@ import { BlogCTA } from './components/BlogCTA';
 import { Agendamento } from './components/Agendamento';
 import { Footer } from './components/Footer';
 import { FloatingWhatsApp } from './components/FloatingWhatsApp';
-import { RevealSection } from './components/RevealSection';
+import { GatedScrollProvider } from './components/ScrollReveal';
 
 export default function App() {
   const navigateToHomeSection = (sectionId: string) => {
@@ -26,62 +26,46 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#FAF8F5] text-[#2C2926] font-sans selection:bg-[#E2EDE7] selection:text-[#293E34] w-full overflow-x-hidden">
-      {/* Header Navigation */}
-      <Header 
-        onNavigateHomeSection={navigateToHomeSection} 
-      />
+    <GatedScrollProvider>
+      <div className="min-h-screen flex flex-col bg-[#FAF8F5] text-[#2C2926] font-sans selection:bg-[#E2EDE7] selection:text-[#293E34] w-full overflow-x-hidden">
+        {/* Header Navigation */}
+        <Header 
+          onNavigateHomeSection={navigateToHomeSection} 
+        />
 
-      <main className="flex-1">
-        {/* 1. Início (Hero) */}
-        <RevealSection>
+        <main className="flex-1">
+          {/* 1. Início (Hero) */}
           <Hero />
-        </RevealSection>
 
-        {/* 2. Serviços & Terapias */}
-        <RevealSection>
+          {/* 2. Serviços & Terapias */}
           <Servicos />
-        </RevealSection>
 
-        {/* 3. Sobre a Lorien */}
-        <RevealSection>
+          {/* 3. Sobre a Lorien */}
           <Sobre />
-        </RevealSection>
 
-        {/* 4. Depoimentos */}
-        <RevealSection>
+          {/* 4. Depoimentos */}
           <Depoimentos />
-        </RevealSection>
 
-        {/* 5. Aulas em Grupo (Le Parc Arbos) */}
-        <RevealSection>
+          {/* 5. Aulas em Grupo (Le Parc Arbos) */}
           <AulasEmGrupo />
-        </RevealSection>
 
-        {/* 6. FAQ (Perguntas Frequentes) */}
-        <RevealSection>
+          {/* 6. FAQ (Perguntas Frequentes) */}
           <FAQ />
-        </RevealSection>
 
-        {/* 7. Blog (Card CTA para o Instagram) */}
-        <RevealSection>
+          {/* 7. Blog (Card CTA para o Instagram) */}
           <BlogCTA />
-        </RevealSection>
 
-        {/* 8. Agendamento & Contato */}
-        <RevealSection>
+          {/* 8. Agendamento & Contato */}
           <Agendamento />
-        </RevealSection>
-      </main>
+        </main>
 
-      {/* Rodapé */}
-      <RevealSection threshold={0.15}>
+        {/* Rodapé */}
         <Footer />
-      </RevealSection>
 
-      {/* Botão Flutuante Independente do WhatsApp (Canto Inferior Direito) */}
-      <FloatingWhatsApp />
-    </div>
+        {/* Botão Flutuante Independente do WhatsApp (Canto Inferior Direito) */}
+        <FloatingWhatsApp />
+      </div>
+    </GatedScrollProvider>
   );
 }
 
