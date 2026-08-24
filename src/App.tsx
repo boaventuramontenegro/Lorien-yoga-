@@ -34,7 +34,9 @@ export default function App() {
 
       <main className="flex-1">
         {/* 1. Início (Hero) */}
-        <Hero />
+        <RevealSection>
+          <Hero />
+        </RevealSection>
 
         {/* 2. Serviços & Terapias */}
         <RevealSection>
@@ -73,7 +75,7 @@ export default function App() {
       </main>
 
       {/* Rodapé */}
-      <RevealSection threshold={0.05}>
+      <RevealSection threshold={0.15}>
         <Footer />
       </RevealSection>
 

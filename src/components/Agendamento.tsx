@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { User, Sparkles, Send, Check, HeartHandshake, CheckCircle2, ChevronDown } from 'lucide-react';
 import { WHATSAPP_PHONE } from '../data/services';
+import { ScrollReveal, FadeInHeader } from './ScrollReveal';
 
 const SERVICE_OPTIONS = [
   { id: 'yoga-aereo', label: 'Yoga Aéreo' },
@@ -104,26 +105,18 @@ export const Agendamento: React.FC = () => {
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
         {/* Section Header */}
-        <div className="space-y-3 mb-10 sm:mb-12 text-center max-w-2xl mx-auto">
-          <div className="flex items-center justify-center gap-3">
-            <span className="w-8 h-[1px] bg-[#A3BFA0]" />
-            <span className="uppercase tracking-[0.3em] text-xs sm:text-sm text-[#5D7C56] font-semibold">
-              AGENDAMENTO & CONTATO
-            </span>
-            <span className="w-8 h-[1px] bg-[#A3BFA0]" />
-          </div>
-
-          <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl font-normal text-[#334230] tracking-tight">
-            Solicite seu Agendamento
-          </h2>
-
-          <p className="text-sm sm:text-base text-[#616059] font-light leading-relaxed">
-            Preencha os campos abaixo com suas preferências. Você será direcionado para confirmar os horários diretamente no WhatsApp com a Lorien.
-          </p>
+        <div className="mb-10 sm:mb-12 text-center max-w-2xl mx-auto">
+          <FadeInHeader
+            badge="AGENDAMENTO & CONTATO"
+            title="Solicite seu Agendamento"
+            description="Preencha os campos abaixo com suas preferências. Você será direcionado para confirmar os horários diretamente no WhatsApp com a Lorien."
+            align="center"
+          />
         </div>
 
         {/* Form Container Card */}
-        <div className="rounded-[28px] sm:rounded-[36px] bg-white border border-[#E5DFD5] p-6 sm:p-10 md:p-12 shadow-[0_8px_32px_rgba(25,35,20,0.06)] relative">
+        <ScrollReveal direction="up" delay={150} duration={850}>
+          <div className="rounded-[28px] sm:rounded-[36px] bg-white border border-[#E5DFD5] p-6 sm:p-10 md:p-12 shadow-[0_8px_32px_rgba(25,35,20,0.06)] relative">
           
           {isSubmitted ? (
             <div className="text-center py-8 sm:py-12 space-y-6 animate-fadeIn">
@@ -318,7 +311,8 @@ export const Agendamento: React.FC = () => {
             </form>
           )}
 
-        </div>
+          </div>
+        </ScrollReveal>
 
       </div>
     </section>

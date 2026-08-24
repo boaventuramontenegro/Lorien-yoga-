@@ -2,6 +2,7 @@ import React, { useRef, useState, useEffect, useCallback } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { SERVICES_DATA, getWhatsAppLink } from '../data/services';
 import { ServiceCard } from './ServiceCard';
+import { ScrollReveal, FadeInHeader } from './ScrollReveal';
 
 export const Servicos: React.FC = () => {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
@@ -126,146 +127,137 @@ export const Servicos: React.FC = () => {
       {/* Section Header */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-10">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
-          <div className="space-y-2 max-w-2xl">
-            <div className="flex items-center gap-3">
-              <span className="w-8 h-[1px] bg-[#A3BFA0]" />
-              <span className="uppercase tracking-[0.3em] text-xs sm:text-sm text-[#5D7C56] font-semibold">
-                Práticas & Atendimentos
-              </span>
-            </div>
-            <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl font-normal text-[#334230]">
-              Serviços & Especialidades
-            </h2>
-            <p className="text-sm sm:text-base text-[#4A4A4A] leading-relaxed opacity-85">
-              Explore cada modalidade de Yoga e terapia integrativa deslizando horizontalmente.
-              Atendimentos com foco em bem-estar, equilíbrio e autoconhecimento.
-            </p>
-          </div>
+          <FadeInHeader
+            badge="Práticas & Atendimentos"
+            title="Serviços & Especialidades"
+            description="Explore cada modalidade de Yoga e terapia integrativa deslizando horizontalmente. Atendimentos com foco em bem-estar, equilíbrio e autoconhecimento."
+          />
 
           {/* Category Filter Tabs & Navigation Controls */}
-          
-          {/* MOBILE FILTER: 100% Preserved exactly as original */}
-          <div className="flex md:hidden flex-wrap items-center gap-3">
-            <div className="flex items-center p-1 rounded-2xl bg-[#F7F3EE] border border-[#E5E1D8] text-[11px] uppercase tracking-wider font-semibold">
-              <button
-                type="button"
-                onClick={() => setActiveCategory('todos')}
-                className={`px-3.5 py-1.5 rounded-xl transition-all cursor-pointer ${
-                  activeCategory === 'todos'
-                    ? 'bg-white text-[#334230] shadow-2xs font-bold'
-                    : 'text-[#7A7A7A] hover:text-[#334230]'
-                }`}
-              >
-                Todos ({SERVICES_DATA.length})
-              </button>
-              <button
-                type="button"
-                onClick={() => setActiveCategory('yoga')}
-                className={`px-3.5 py-1.5 rounded-xl transition-all cursor-pointer ${
-                  activeCategory === 'yoga'
-                    ? 'bg-white text-[#334230] shadow-2xs font-bold'
-                    : 'text-[#7A7A7A] hover:text-[#334230]'
-                }`}
-              >
-                Yoga
-              </button>
-              <button
-                type="button"
-                onClick={() => setActiveCategory('terapias')}
-                className={`px-3.5 py-1.5 rounded-xl transition-all cursor-pointer ${
-                  activeCategory === 'terapias'
-                    ? 'bg-white text-[#334230] shadow-2xs font-bold'
-                    : 'text-[#7A7A7A] hover:text-[#334230]'
-                }`}
-              >
-                Terapias
-              </button>
-              <button
-                type="button"
-                onClick={() => setActiveCategory('oraculo')}
-                className={`px-3.5 py-1.5 rounded-xl transition-all cursor-pointer ${
-                  activeCategory === 'oraculo'
-                    ? 'bg-white text-[#334230] shadow-2xs font-bold'
-                    : 'text-[#7A7A7A] hover:text-[#334230]'
-                }`}
-              >
-                Oráculo
-              </button>
+          <ScrollReveal direction="up" delay={150}>
+            {/* MOBILE FILTER: 100% Preserved exactly as original */}
+            <div className="flex md:hidden flex-wrap items-center gap-3">
+              <div className="flex items-center p-1 rounded-2xl bg-[#F7F3EE] border border-[#E5E1D8] text-[11px] uppercase tracking-wider font-semibold">
+                <button
+                  type="button"
+                  onClick={() => setActiveCategory('todos')}
+                  className={`px-3.5 py-1.5 rounded-xl transition-all cursor-pointer ${
+                    activeCategory === 'todos'
+                      ? 'bg-white text-[#334230] shadow-2xs font-bold'
+                      : 'text-[#7A7A7A] hover:text-[#334230]'
+                  }`}
+                >
+                  Todos ({SERVICES_DATA.length})
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setActiveCategory('yoga')}
+                  className={`px-3.5 py-1.5 rounded-xl transition-all cursor-pointer ${
+                    activeCategory === 'yoga'
+                      ? 'bg-white text-[#334230] shadow-2xs font-bold'
+                      : 'text-[#7A7A7A] hover:text-[#334230]'
+                  }`}
+                >
+                  Yoga
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setActiveCategory('terapias')}
+                  className={`px-3.5 py-1.5 rounded-xl transition-all cursor-pointer ${
+                    activeCategory === 'terapias'
+                      ? 'bg-white text-[#334230] shadow-2xs font-bold'
+                      : 'text-[#7A7A7A] hover:text-[#334230]'
+                  }`}
+                >
+                  Terapias
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setActiveCategory('oraculo')}
+                  className={`px-3.5 py-1.5 rounded-xl transition-all cursor-pointer ${
+                    activeCategory === 'oraculo'
+                      ? 'bg-white text-[#334230] shadow-2xs font-bold'
+                      : 'text-[#7A7A7A] hover:text-[#334230]'
+                  }`}
+                >
+                  Oráculo
+                </button>
+              </div>
             </div>
-          </div>
 
-          {/* DESKTOP FILTER: Elegant, refined horizontal composition integrated with header */}
-          <div className="hidden md:flex items-center gap-4">
-            <nav 
-              aria-label="Filtro de modalidades" 
-              className="flex items-center p-1.5 rounded-full bg-[#F4EFEA]/85 border border-[#E5DFD5] shadow-[inset_0_1px_2px_rgba(0,0,0,0.03)] text-xs tracking-wider uppercase"
-            >
-              <button
-                type="button"
-                onClick={() => setActiveCategory('todos')}
-                className={`px-4 py-2 rounded-full transition-all duration-200 cursor-pointer font-medium ${
-                  activeCategory === 'todos'
-                    ? 'bg-white text-[#2C3B27] font-bold shadow-xs border border-[#DCD5C9]'
-                    : 'text-[#6E736B] hover:text-[#2C3B27] border border-transparent'
-                }`}
+            {/* DESKTOP FILTER: Elegant, refined horizontal composition integrated with header */}
+            <div className="hidden md:flex items-center gap-4">
+              <nav 
+                aria-label="Filtro de modalidades" 
+                className="flex items-center p-1.5 rounded-full bg-[#F4EFEA]/85 border border-[#E5DFD5] shadow-[inset_0_1px_2px_rgba(0,0,0,0.03)] text-xs tracking-wider uppercase"
               >
-                Todos ({SERVICES_DATA.length})
-              </button>
-              <button
-                type="button"
-                onClick={() => setActiveCategory('yoga')}
-                className={`px-4 py-2 rounded-full transition-all duration-200 cursor-pointer font-medium ${
-                  activeCategory === 'yoga'
-                    ? 'bg-white text-[#2C3B27] font-bold shadow-xs border border-[#DCD5C9]'
-                    : 'text-[#6E736B] hover:text-[#2C3B27] border border-transparent'
-                }`}
-              >
-                Yoga
-              </button>
-              <button
-                type="button"
-                onClick={() => setActiveCategory('terapias')}
-                className={`px-4 py-2 rounded-full transition-all duration-200 cursor-pointer font-medium ${
-                  activeCategory === 'terapias'
-                    ? 'bg-white text-[#2C3B27] font-bold shadow-xs border border-[#DCD5C9]'
-                    : 'text-[#6E736B] hover:text-[#2C3B27] border border-transparent'
-                }`}
-              >
-                Terapias
-              </button>
-              <button
-                type="button"
-                onClick={() => setActiveCategory('oraculo')}
-                className={`px-4 py-2 rounded-full transition-all duration-200 cursor-pointer font-medium ${
-                  activeCategory === 'oraculo'
-                    ? 'bg-white text-[#2C3B27] font-bold shadow-xs border border-[#DCD5C9]'
-                    : 'text-[#6E736B] hover:text-[#2C3B27] border border-transparent'
-                }`}
-              >
-                Oráculo
-              </button>
-            </nav>
+                <button
+                  type="button"
+                  onClick={() => setActiveCategory('todos')}
+                  className={`px-4 py-2 rounded-full transition-all duration-200 cursor-pointer font-medium ${
+                    activeCategory === 'todos'
+                      ? 'bg-white text-[#2C3B27] font-bold shadow-xs border border-[#DCD5C9]'
+                      : 'text-[#6E736B] hover:text-[#2C3B27] border border-transparent'
+                  }`}
+                >
+                  Todos ({SERVICES_DATA.length})
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setActiveCategory('yoga')}
+                  className={`px-4 py-2 rounded-full transition-all duration-200 cursor-pointer font-medium ${
+                    activeCategory === 'yoga'
+                      ? 'bg-white text-[#2C3B27] font-bold shadow-xs border border-[#DCD5C9]'
+                      : 'text-[#6E736B] hover:text-[#2C3B27] border border-transparent'
+                  }`}
+                >
+                  Yoga
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setActiveCategory('terapias')}
+                  className={`px-4 py-2 rounded-full transition-all duration-200 cursor-pointer font-medium ${
+                    activeCategory === 'terapias'
+                      ? 'bg-white text-[#2C3B27] font-bold shadow-xs border border-[#DCD5C9]'
+                      : 'text-[#6E736B] hover:text-[#2C3B27] border border-transparent'
+                  }`}
+                >
+                  Terapias
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setActiveCategory('oraculo')}
+                  className={`px-4 py-2 rounded-full transition-all duration-200 cursor-pointer font-medium ${
+                    activeCategory === 'oraculo'
+                      ? 'bg-white text-[#2C3B27] font-bold shadow-xs border border-[#DCD5C9]'
+                      : 'text-[#6E736B] hover:text-[#2C3B27] border border-transparent'
+                  }`}
+                >
+                  Oráculo
+                </button>
+              </nav>
 
-            {/* Desktop Navigation Arrows */}
-            <div className="flex items-center gap-2 pl-2 border-l border-[#E5DFD5]">
-              <button
-                type="button"
-                onClick={() => scroll('left')}
-                aria-label="Rolar modalidades para a esquerda"
-                className="w-10 h-10 rounded-full bg-white border border-[#E5DFD5] flex items-center justify-center text-[#334230] hover:bg-[#EFF4EC] hover:border-[#8EA886] hover:text-[#5D7C56] transition-all shadow-xs hover:shadow-sm cursor-pointer active:scale-95"
-              >
-                <ChevronLeft className="w-5 h-5" />
-              </button>
-              <button
-                type="button"
-                onClick={() => scroll('right')}
-                aria-label="Rolar modalidades para a direita"
-                className="w-10 h-10 rounded-full bg-white border border-[#E5DFD5] flex items-center justify-center text-[#334230] hover:bg-[#EFF4EC] hover:border-[#8EA886] hover:text-[#5D7C56] transition-all shadow-xs hover:shadow-sm cursor-pointer active:scale-95"
-              >
-                <ChevronRight className="w-5 h-5" />
-              </button>
+              {/* Desktop Navigation Arrows */}
+              <div className="flex items-center gap-2 pl-2 border-l border-[#E5DFD5]">
+                <button
+                  type="button"
+                  onClick={() => scroll('left')}
+                  aria-label="Rolar modalidades para a esquerda"
+                  className="w-10 h-10 rounded-full bg-white border border-[#E5DFD5] flex items-center justify-center text-[#334230] hover:bg-[#EFF4EC] hover:border-[#8EA886] hover:text-[#5D7C56] transition-all shadow-xs hover:shadow-sm cursor-pointer active:scale-95"
+                >
+                  <ChevronLeft className="w-5 h-5" />
+                </button>
+                <button
+                  type="button"
+                  onClick={() => scroll('right')}
+                  aria-label="Rolar modalidades para a direita"
+                  className="w-10 h-10 rounded-full bg-white border border-[#E5DFD5] flex items-center justify-center text-[#334230] hover:bg-[#EFF4EC] hover:border-[#8EA886] hover:text-[#5D7C56] transition-all shadow-xs hover:shadow-sm cursor-pointer active:scale-95"
+                >
+                  <ChevronRight className="w-5 h-5" />
+                </button>
+              </div>
             </div>
-          </div>
+          </ScrollReveal>
 
         </div>
       </div>
@@ -277,43 +269,52 @@ export const Servicos: React.FC = () => {
           className="flex gap-5 sm:gap-6 overflow-x-auto px-[calc(50vw-150px)] min-[400px]:px-[calc(50vw-165px)] sm:px-8 lg:px-12 pb-10 pt-4 custom-scrollbar snap-x snap-mandatory items-stretch overscroll-x-contain"
           style={{ scrollBehavior: 'smooth', WebkitOverflowScrolling: 'touch' }}
         >
-          {filteredServices.map((service) => {
+          {filteredServices.map((service, index) => {
             const isHighlighted = hoveredCardId
               ? hoveredCardId === service.id
               : activeCardId === service.id;
 
             return (
-              <div 
-                key={service.id} 
+              <ScrollReveal
+                key={service.id}
+                direction="up"
+                delay={Math.min(index * 90, 450)}
+                duration={750}
                 className="snap-center shrink-0 flex items-stretch cursor-pointer"
-                onClick={() => handleCardClick(service.id)}
               >
-                <ServiceCard 
-                  service={service} 
-                  isHighlighted={isHighlighted}
-                  onHover={(id) => setHoveredCardId(id)}
-                />
-              </div>
+                <div 
+                  className="w-full h-full flex items-stretch"
+                  onClick={() => handleCardClick(service.id)}
+                >
+                  <ServiceCard 
+                    service={service} 
+                    isHighlighted={isHighlighted}
+                    onHover={(id) => setHoveredCardId(id)}
+                  />
+                </div>
+              </ScrollReveal>
             );
           })}
         </div>
       </div>
 
       {/* Bottom helper prompt */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-4 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#7A7A7A]">
-        <span className="flex items-center gap-1.5">
-          Dica: Deslize horizontalmente ou use as setas para ver todas as modalidades.
-        </span>
+      <ScrollReveal direction="up" delay={200}>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-4 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#7A7A7A]">
+          <span className="flex items-center gap-1.5">
+            Dica: Deslize horizontalmente ou use as setas para ver todas as modalidades.
+          </span>
 
-        <a
-          href={getWhatsAppLink('Olá Lorien! Gostaria de uma recomendação sobre qual prática é ideal para o meu momento.')}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex items-center text-[#5A5A40] font-bold uppercase tracking-wider text-[11px] hover:text-[#A3B18A] transition-colors"
-        >
-          Dúvida sobre qual prática escolher? Fale comigo
-        </a>
-      </div>
+          <a
+            href={getWhatsAppLink('Olá Lorien! Gostaria de uma recomendação sobre qual prática é ideal para o meu momento.')}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center text-[#5A5A40] font-bold uppercase tracking-wider text-[11px] hover:text-[#A3B18A] transition-colors"
+          >
+            Dúvida sobre qual prática escolher? Fale comigo
+          </a>
+        </div>
+      </ScrollReveal>
     </section>
   );
 };

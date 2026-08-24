@@ -1,6 +1,7 @@
 import React from 'react';
 import { getWhatsAppLink } from '../data/services';
 import { StackedDeck, DeckCardItem } from './StackedDeck';
+import { ScrollReveal, FadeInHeader } from './ScrollReveal';
 
 // Fotos para o Deck de Cards Sobrepostos Interativo (StackedDeck)
 // Card 0 (topo por padrão) é a foto de Lorien Valsecchi, seguido pelo espaço e salas de práticas e terapias
@@ -54,31 +55,22 @@ export const Sobre: React.FC = () => {
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 space-y-10 sm:space-y-12">
         
         {/* 1. CABEÇALHO DA SEÇÃO */}
-        <div className="space-y-2 max-w-2xl">
-          <div className="flex items-center gap-3">
-            <span className="w-8 h-[1px] bg-[#A3BFA0]" />
-            <span className="uppercase tracking-[0.3em] text-xs sm:text-sm text-[#5D7C56] font-semibold">
-              SOBRE
-            </span>
-          </div>
-          <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl font-normal text-[#334230] tracking-tight">
-            Quem é Lorien Valsecchi
-          </h2>
-          <p className="text-sm sm:text-base text-[#616059] font-light leading-relaxed">
-            Terapeuta corporal e instrutora dedicada ao cuidado integral, presença e equilíbrio em Caxias do Sul.
-          </p>
-        </div>
+        <FadeInHeader
+          badge="SOBRE"
+          title="Quem é Lorien Valsecchi"
+          description="Terapeuta corporal e instrutora dedicada ao cuidado integral, presença e equilíbrio em Caxias do Sul."
+        />
 
-        {/* 2. APRESENTAÇÃO: STACKED DECK DE FOTOS & BIOGRAFIA */}
+        {/* 2. APRESENTAÇÃO: STACKED DECK DE FOTOS & BIOGRAFIA COM REVELAÇÃO LATERAL */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
           
-          {/* Deck de Cards Sobrepostos Interativo (StackedDeck) */}
-          <div className="lg:col-span-5 flex justify-center lg:justify-start">
+          {/* Deck de Cards Sobrepostos Interativo (StackedDeck) — Revelação da Direita para Esquerda */}
+          <ScrollReveal direction="right" duration={850} delay={100} className="lg:col-span-5 flex justify-center lg:justify-start">
             <StackedDeck cards={STACKED_DECK_CARDS} />
-          </div>
+          </ScrollReveal>
 
-          {/* Biografia, Formação e Filosofia Unificadas */}
-          <div className="lg:col-span-7 space-y-4 text-sm sm:text-base text-[#55544D] font-light leading-relaxed">
+          {/* Biografia, Formação e Filosofia Unificadas — Revelação da Esquerda para Direita */}
+          <ScrollReveal direction="left" duration={850} delay={180} className="lg:col-span-7 space-y-4 text-sm sm:text-base text-[#55544D] font-light leading-relaxed">
             <p>
               Com uma atuação pautada no cuidado integral, dedico minha trajetória a ajudar pessoas a reencontrarem harmonia, alívio de tensões e conexão profunda com o próprio corpo.
             </p>
@@ -88,72 +80,80 @@ export const Sobre: React.FC = () => {
             <p className="text-xs sm:text-sm text-[#6E6C64] italic font-serif">
               Um espaço de escuta atenta, regeneração e reconexão consigo mesmo no coração de Caxias do Sul.
             </p>
-          </div>
+          </ScrollReveal>
 
         </div>
 
-        {/* 3. OS 3 PILARES: Grid Lado a Lado Compacto */}
+        {/* 3. OS 3 PILARES: Grid Lado a Lado Compacto com Efeito Cascata */}
         <div className="pt-6 border-t border-[#EAE4DC]">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
             
             {/* Pilar 1 */}
-            <div className="space-y-1.5">
-              <span className="text-[10px] font-serif italic text-[#5D7C56] font-bold block">
-                01
-              </span>
-              <h3 className="text-xs sm:text-sm uppercase tracking-[0.16em] font-semibold text-[#334230]">
-                Atenção Individualizada
-              </h3>
-              <p className="text-xs sm:text-sm text-[#6E6C64] font-light leading-relaxed">
-                Práticas e ajustes adaptados ao seu ritmo, respeitando sua anatomia, histórico e objetivos pessoais.
-              </p>
-            </div>
+            <ScrollReveal direction="up" delay={50} duration={750}>
+              <div className="space-y-1.5">
+                <span className="text-[10px] font-serif italic text-[#5D7C56] font-bold block">
+                  01
+                </span>
+                <h3 className="text-xs sm:text-sm uppercase tracking-[0.16em] font-semibold text-[#334230]">
+                  Atenção Individualizada
+                </h3>
+                <p className="text-xs sm:text-sm text-[#6E6C64] font-light leading-relaxed">
+                  Práticas e ajustes adaptados ao seu ritmo, respeitando sua anatomia, histórico e objetivos pessoais.
+                </p>
+              </div>
+            </ScrollReveal>
 
             {/* Pilar 2 */}
-            <div className="space-y-1.5 md:border-l border-[#E2DBD0] md:pl-6">
-              <span className="text-[10px] font-serif italic text-[#5D7C56] font-bold block">
-                02
-              </span>
-              <h3 className="text-xs sm:text-sm uppercase tracking-[0.16em] font-semibold text-[#334230]">
-                Ambiente Acolhedor
-              </h3>
-              <p className="text-xs sm:text-sm text-[#6E6C64] font-light leading-relaxed">
-                Um espaço seguro, silencioso e acolhedor para desacelerar a mente, livre de pressões ou comparações.
-              </p>
-            </div>
+            <ScrollReveal direction="up" delay={160} duration={750}>
+              <div className="space-y-1.5 md:border-l border-[#E2DBD0] md:pl-6">
+                <span className="text-[10px] font-serif italic text-[#5D7C56] font-bold block">
+                  02
+                </span>
+                <h3 className="text-xs sm:text-sm uppercase tracking-[0.16em] font-semibold text-[#334230]">
+                  Ambiente Acolhedor
+                </h3>
+                <p className="text-xs sm:text-sm text-[#6E6C64] font-light leading-relaxed">
+                  Um espaço seguro, silencioso e acolhedor para desacelerar a mente, livre de pressões ou comparações.
+                </p>
+              </div>
+            </ScrollReveal>
 
             {/* Pilar 3 */}
-            <div className="space-y-1.5 md:border-l border-[#E2DBD0] md:pl-6">
-              <span className="text-[10px] font-serif italic text-[#5D7C56] font-bold block">
-                03
-              </span>
-              <h3 className="text-xs sm:text-sm uppercase tracking-[0.16em] font-semibold text-[#334230]">
-                Abordagem Integrativa
-              </h3>
-              <p className="text-xs sm:text-sm text-[#6E6C64] font-light leading-relaxed">
-                Harmonia entre consciência física, respiração, liberação energética e autoconhecimento.
-              </p>
-            </div>
+            <ScrollReveal direction="up" delay={270} duration={750}>
+              <div className="space-y-1.5 md:border-l border-[#E2DBD0] md:pl-6">
+                <span className="text-[10px] font-serif italic text-[#5D7C56] font-bold block">
+                  03
+                </span>
+                <h3 className="text-xs sm:text-sm uppercase tracking-[0.16em] font-semibold text-[#334230]">
+                  Abordagem Integrativa
+                </h3>
+                <p className="text-xs sm:text-sm text-[#6E6C64] font-light leading-relaxed">
+                  Harmonia entre consciência física, respiração, liberação energética e autoconhecimento.
+                </p>
+              </div>
+            </ScrollReveal>
 
           </div>
         </div>
 
         {/* 4. CTA EM PRIMEIRA PESSOA */}
-        <div className="pt-6 sm:pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 border-t border-[#EAE4DC]">
-          <p className="text-xs sm:text-sm text-[#737168] font-light text-center sm:text-left">
-            Deseja saber qual prática ou atendimento é ideal para o seu momento?
-          </p>
+        <ScrollReveal direction="up" delay={200}>
+          <div className="pt-6 sm:pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 border-t border-[#EAE4DC]">
+            <p className="text-xs sm:text-sm text-[#737168] font-light text-center sm:text-left">
+              Deseja saber qual prática ou atendimento é ideal para o seu momento?
+            </p>
 
-          <a
-            id="sobre-cta-conversar"
-            href={getWhatsAppLink('Olá Lorien! Gostaria de conversar com você para conhecer mais sobre os atendimentos e práticas.')}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center justify-center px-7 py-3.5 rounded-full text-xs uppercase tracking-[0.18em] font-bold bg-[#5D7C56] hover:bg-[#4E6B47] text-white transition-all shadow-[0_4px_16px_rgba(50,75,45,0.25)] hover:shadow-md active:scale-98 cursor-pointer shrink-0 w-full sm:w-auto"
-          >
-            Conversar com a Lorien
-          </a>
-        </div>
+            <a
+              id="sobre-cta-conversar"
+              href={getWhatsAppLink('Olá Lorien! Gostaria de conversar com você para conhecer mais sobre os atendimentos e práticas.')}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center px-7 py-3.5 rounded-full text-xs uppercase tracking-[0.18em] font-bold bg-[#5D7C56] hover:bg-[#4E6B47] text-white transition-all shadow-[0_4px_16px_rgba(50,75,45,0.25)] hover:shadow-md active:scale-98 cursor-pointer shrink-0 w-full sm:w-auto"
+            >
+              Conversar com a Lorien
+            </a>
+          </div>
+        </ScrollReveal>
 
       </div>
     </section>
