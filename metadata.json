@@ -1,0 +1,8 @@
+{
+  "name": "Remix Lorien Terapeuta Corporal",
+  "description": "Site institucional e hub de agendamento de Yoga, Terapias Integrativas, Reiki e Baralho Cigano com Lorien Valsecchi.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
