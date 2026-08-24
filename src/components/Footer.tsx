@@ -19,7 +19,7 @@ export const Footer: React.FC = () => {
           {/* COLUNA 1 — MARCA (md:col-span-4) */}
           <ScrollReveal direction="up" delay={50} className="md:col-span-4 space-y-4">
             <div className="flex items-center gap-3.5">
-              <Logo size="lg" variant="white" showText={false} />
+              <Logo size="lg" variant="dark" showText={false} />
               <div className="flex flex-col justify-center">
                 <span className="font-serif text-2xl sm:text-3xl font-normal text-white leading-tight">
                   Lorien Valsecchi

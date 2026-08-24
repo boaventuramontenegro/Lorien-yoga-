@@ -62,7 +62,7 @@ export const Header: React.FC<HeaderProps> = ({ onNavigateHomeSection }) => {
           >
             <Logo 
               size="md" 
-              variant={isScrolled ? 'black' : 'white'} 
+              variant={isScrolled ? 'light' : 'dark'} 
               showText={true} 
             />
           </a>
